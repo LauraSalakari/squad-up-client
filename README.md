@@ -50,6 +50,8 @@ Squad Up! is committed to creating a friendly and safe space for all gamers.
 * /messages/:id
 * /squads
 * /squads/:id
+* /squads/create
+* /squads/:id/edit
 * /forums
 * /forums/:id
 * /forums/create
