@@ -26,7 +26,7 @@ Squad Up! is committed to creating a friendly and safe space for all gamers.
 
 ## Links
 
-[Trello](https://trello.com/b/Yk9BbjDe/squad-up)
-[Client Repository](https://github.com/LauraSalakari/squad-up-client)
-[Server Repository](https://github.com/LauraSalakari/squad-up-server)
-[Deployment Link](https://squad-u-p.herokuapp.com/)
+* [Trello](https://trello.com/b/Yk9BbjDe/squad-up)
+* [Client Repository](https://github.com/LauraSalakari/squad-up-client)
+* [Server Repository](https://github.com/LauraSalakari/squad-up-server)
+* [Deployment Link](https://squad-u-p.herokuapp.com/)
