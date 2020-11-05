@@ -1,16 +1,17 @@
 import React from 'react'
 import { Navbar, Nav, NavDropdown, ButtonGroup } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 export default function MyGuestNav() {
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                <Navbar.Brand>SquadUp!</Navbar.Brand>
+            <Link to="/"><Navbar.Brand>SquadUp!</Navbar.Brand></Link>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link>Squads</Nav.Link>
-                        <Nav.Link>Forums</Nav.Link>
+                        <Link to="/squads">Squads</Link>
+                        <Link to="/forums">Forums</Link>
 
                     </Nav>
                     <Nav>
