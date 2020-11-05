@@ -16,6 +16,18 @@ class App extends Component {
     errorMessage: null
   }
 
+  componentDidMount() {
+    if (!this.state.user) {
+      Axios.get(`${API_URL}/user`, { withCredentials: true })
+        .then((response) => {
+          console.log(response.data)
+          this.setState({
+            user: response.data
+          })
+        })
+    }
+  }
+
   //signup
   handleSignUp = (e) => {
     e.preventDefault();
@@ -52,7 +64,7 @@ class App extends Component {
     }, { withCredentials: true })
       .then((response) => {
         this.setState({
-          ser: response.data
+          user: response.data
         }, () => {
           this.props.history.push("/"); //where should this actually redirect?
         })
@@ -66,6 +78,16 @@ class App extends Component {
   }
 
   //logout
+  handleLogout = () => {
+    Axios.post(`${API_URL}/logout`, {}, { withCredentials: true })
+    .then(() => {
+      this.setState({
+        user: null
+      }, () => {
+        this.props.history.push("/");
+      })
+    })
+  }
 
 
   //handle errormessages onunmount for now
@@ -81,7 +103,8 @@ class App extends Component {
 
     return (
       <div className="App">
-        {user ? <MyNav /> : <MyGuestNav />}
+        {user ? <MyNav onLogout={this.handleLogout}/> : <MyGuestNav />}
+        {user ? (<p>user: {user.username}</p>) : null}
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route path="/signup" render={(routeProps) => {

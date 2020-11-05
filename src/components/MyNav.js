@@ -1,8 +1,8 @@
 import React from 'react'
-import { Navbar, Nav, NavDropdown, ButtonGroup } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, ButtonGroup, Button } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
-export default function MyGuestNav() {
+export default function MyGuestNav(props) {
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -19,7 +19,7 @@ export default function MyGuestNav() {
                             <NavDropdown.Item>My Profile</NavDropdown.Item>
                             <NavDropdown.Item>Messages</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item>Log Out</NavDropdown.Item>
+                            <NavDropdown.Item onClick={props.onLogout}>Log Out</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
