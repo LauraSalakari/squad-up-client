@@ -81,13 +81,13 @@ class App extends Component {
   //logout
   handleLogout = () => {
     Axios.post(`${API_URL}/logout`, {}, { withCredentials: true })
-    .then(() => {
-      this.setState({
-        user: null
-      }, () => {
-        this.props.history.push("/");
+      .then(() => {
+        this.setState({
+          user: null
+        }, () => {
+          this.props.history.push("/");
+        })
       })
-    })
   }
 
 
@@ -99,12 +99,18 @@ class App extends Component {
     })
   }
 
+  handleProfileEdit = (e) => {
+    e.preventDefault();
+    let data = JSON.parse(e.target.platforms.value)
+    console.log("platform value is:", e.target.platforms.value)
+  }
+
   render() {
     const { errorMessage, user } = this.state;
 
     return (
       <div className="App">
-        {user ? <MyNav onLogout={this.handleLogout}/> : <MyGuestNav />}
+        {user ? <MyNav onLogout={this.handleLogout} /> : <MyGuestNav />}
         {user ? (<p>user: {user.username}</p>) : null}
         <Switch>
           <Route exact path="/" component={Landing} />
@@ -114,7 +120,11 @@ class App extends Component {
           <Route path="/signin" render={(routeProps) => {
             return <SignIn onUnmount={this.handleUnmount} errorMessage={errorMessage} onSignIn={this.handleSignIn} {...routeProps} />
           }} />
-          <Route path="/profile/edit" component={EditProfile} />
+          <Route path="/profile/edit" render={(routeProps) => {
+            return <EditProfile onEditProfile={this.handleProfileEdit} {...routeProps} />
+          }}
+          />
+
         </Switch>
       </div>
     )

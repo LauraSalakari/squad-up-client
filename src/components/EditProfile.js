@@ -3,38 +3,74 @@ import { Form, Button } from "react-bootstrap"
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import Axios from "axios"
+import bsCustomFileInput from 'bs-custom-file-input';
+import { RAWG_API_KEY } from "../config";
+import { API_URL } from "../config";
+
 
 require('dotenv').config();
 
 export default function EditProfile(props) {
 
-    const platforms = ["PC", "PlayStation", "XBox", "Nintendo Switch", "Mobile", "Other"];
+    const [platforms, setPlatforms] = useState(["bear", "panda"]);
     const [userPlatforms, choosePlatforms] = useState([]);  // this will get fed from the user info
     const [games, setGames] = useState([]);
     const [gameTitles, setTitles] = useState([]);
     const [userGames, setUserGames] = useState([]); // this will get fed from the user info
     const animatedComponents = makeAnimated();
 
+    //this currently controls the react-select dropdown colours for the game search
+    const customStyles = {
+        option: provided => ({
+            ...provided,
+            color: 'black'
+        }),
+        control: provided => ({
+            ...provided,
+            color: 'black'
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            color: 'black'
+        })
+    }
 
-    useEffect(() => {
-        Axios.get(`https://api.rawg.io/api/games?key=${process.env.RAWG_API_KEY}`)
-            .then((response) => {
-                setGames(response.data);
-                let titles = response.data.map((elem) => {
-                    return elem.name
-                })
-                setTitles(titles);
+    useEffect(() =>{
+        bsCustomFileInput.init();
+
+        Axios.get(`${API_URL}/platforms`)
+        .then((response) => {
+            console.log(response.data)
+            let platformData = response.data.map((elem) => {
+                return {label: elem.name, value: JSON.stringify(elem)}
             })
-            .catch((err) => {
-                console.log(err, "Failed to load games data")
-            })
+            setPlatforms(platformData);
+            console.log("platformData:", platformData);
+            console.log("platforms", platforms);
+        })
+        .catch((err) => {
+            console.log(err, "failed to fetch platforms");
+        })
     }, [])
+
+
+    const handleGameSearch = (e) => {
+        Axios.get(`https://api.rawg.io/api/games?key=${RAWG_API_KEY}&search=${e}`)
+            .then((response) => {
+                // setGames(response.data.results);
+                let titles = response.data.results.map(elem => {
+                    return { label: elem.name, value: elem }
+                })
+                setTitles(titles)
+            })
+
+    }
 
     return (
         <div>
             <h3>Edit your profile</h3>
             <h5>Account Details</h5>
-            <Form>
+            <Form onSubmit={props.onEditProfile} encType="multipart/form-data" >
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Username</Form.Label>
                     <Form.Control plaintext readOnly defaultValue="Username" />
@@ -44,23 +80,31 @@ export default function EditProfile(props) {
                     <Form.Control plaintext readOnly defaultValue="email@email.com" />
                 </Form.Group>
                 <h5>Profile</h5>
-                <Form>
+                <Form.Group>
+                <Form.Label>Profile picture</Form.Label>
                     <Form.File
                         id="custom-file"
-                        label="Custom file input"
+                        label="Choose a file"
+                        class="custom-file-input"
                         custom
+                        name="image"
+                        accept="image/png, image/jpeg"
                     />
-                </Form>
-                <Form.Text className="text-muted">
-                    Tell people a bit about yourself!
-                </Form.Text>
+                </Form.Group>
                 <Form.Group controlId="exampleForm.ControlTextarea1">
                     <Form.Label>About Me</Form.Label>
-                    <Form.Control as="textarea" rows={5} />
+                    <Form.Control as="textarea" rows={5} name="bio" />
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Choose your platforms</Form.Label>
-                    {
+                    <Select
+                        closeMenuOnSelect={false}
+                        isMulti
+                        options={platforms}
+                        styles={customStyles}
+                        name="platforms"
+                    />
+                    {/* {
                         platforms.map((elem) => {
                             return <div key={`default-${elem}`} className="mb-3">
                                 <Form.Check
@@ -70,16 +114,18 @@ export default function EditProfile(props) {
                                 />
                             </div>
                         })
-                    }
+                    } */}
 
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Select your favourite games</Form.Label>
                     <Select
+                        onInputChange={handleGameSearch}
                         closeMenuOnSelect={false}
-                        components={animatedComponents}
                         isMulti
-                        options={games}
+                        options={gameTitles}
+                        styles={customStyles}
+                        name="games"
                     />
                 </Form.Group>
 
