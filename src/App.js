@@ -8,6 +8,7 @@ import MyNav from './components/MyNav';
 import MyGuestNav from './components/MyGuestNav';
 import SignUpForm from './components/SignUpForm';
 import SignIn from "./components/SignIn"
+import EditProfile from "./components/EditProfile"
 
 class App extends Component {
 
@@ -113,6 +114,7 @@ class App extends Component {
           <Route path="/signin" render={(routeProps) => {
             return <SignIn onUnmount={this.handleUnmount} errorMessage={errorMessage} onSignIn={this.handleSignIn} {...routeProps} />
           }} />
+          <Route path="/profile/edit" component={EditProfile} />
         </Switch>
       </div>
     )
