@@ -17,7 +17,7 @@ export default function EditProfile(props) {
 
 
     useEffect(() => {
-        Axios.get(`https://api.rawg.io/api/games?key=0d8d5106350244dd979ecfa10b19036d`)
+        Axios.get(`https://api.rawg.io/api/games?key=${process.env.RAWG_API_KEY}`)
             .then((response) => {
                 setGames(response.data);
                 let titles = response.data.map((elem) => {
