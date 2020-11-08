@@ -6,8 +6,7 @@ import Axios from "axios"
 import bsCustomFileInput from 'bs-custom-file-input';
 import { RAWG_API_KEY } from "../config";
 import { API_URL } from "../config";
-const debounce = require("lodash/debounce")
-
+var _ = require('lodash');
 
 require('dotenv').config();
 
@@ -53,6 +52,7 @@ export default function EditProfile(props) {
 
 
     const handleGameSearch = (e) => {
+        console.log("called")
         Axios.get(`https://api.rawg.io/api/games?key=${RAWG_API_KEY}&search=${e}`)
             .then((response) => {
                 // setGames(response.data.results);
@@ -61,8 +61,12 @@ export default function EditProfile(props) {
                 })
                 setTitles(titles)
             })
-
     }
+
+    // only make api query to RAWG every 400ms to limit the number of queries
+    // i think this works??
+    const delayedGameSearch = _.debounce(handleGameSearch, 400, {leading:true});
+
 
     return (
         <div>
@@ -107,7 +111,7 @@ export default function EditProfile(props) {
                 <Form.Group>
                     <Form.Label>Select your favourite games</Form.Label>
                     <Select
-                        onInputChange={handleGameSearch}
+                        onInputChange={delayedGameSearch}
                         closeMenuOnSelect={false}
                         isMulti
                         options={gameTitles}
