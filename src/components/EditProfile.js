@@ -6,13 +6,14 @@ import Axios from "axios"
 import bsCustomFileInput from 'bs-custom-file-input';
 import { RAWG_API_KEY } from "../config";
 import { API_URL } from "../config";
+const debounce = require("lodash/debounce")
 
 
 require('dotenv').config();
 
 export default function EditProfile(props) {
 
-    const [platforms, setPlatforms] = useState(["bear", "panda"]);
+    const [platforms, setPlatforms] = useState([]);
     const [userPlatforms, choosePlatforms] = useState([]);  // this will get fed from the user info
     const [games, setGames] = useState([]);
     const [gameTitles, setTitles] = useState([]);
@@ -40,13 +41,10 @@ export default function EditProfile(props) {
 
         Axios.get(`${API_URL}/platforms`)
         .then((response) => {
-            console.log(response.data)
             let platformData = response.data.map((elem) => {
                 return {label: elem.name, value: JSON.stringify(elem)}
             })
             setPlatforms(platformData);
-            console.log("platformData:", platformData);
-            console.log("platforms", platforms);
         })
         .catch((err) => {
             console.log(err, "failed to fetch platforms");
@@ -59,7 +57,7 @@ export default function EditProfile(props) {
             .then((response) => {
                 // setGames(response.data.results);
                 let titles = response.data.results.map(elem => {
-                    return { label: elem.name, value: elem }
+                    return { label: elem.name, value: JSON.stringify(elem) }
                 })
                 setTitles(titles)
             })
@@ -73,11 +71,11 @@ export default function EditProfile(props) {
             <Form onSubmit={props.onEditProfile} encType="multipart/form-data" >
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue="Username" />
+                    <Form.Control plaintext readOnly defaultValue={props.user.username} />
                 </Form.Group>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue="email@email.com" />
+                    <Form.Control plaintext readOnly defaultValue={props.user.email} />
                 </Form.Group>
                 <h5>Profile</h5>
                 <Form.Group>
@@ -104,17 +102,6 @@ export default function EditProfile(props) {
                         styles={customStyles}
                         name="platforms"
                     />
-                    {/* {
-                        platforms.map((elem) => {
-                            return <div key={`default-${elem}`} className="mb-3">
-                                <Form.Check
-                                    type="checkbox"
-                                    id={`default-${elem}`}
-                                    label={`${elem}`}
-                                />
-                            </div>
-                        })
-                    } */}
 
                 </Form.Group>
                 <Form.Group>

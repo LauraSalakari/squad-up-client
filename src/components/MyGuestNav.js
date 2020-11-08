@@ -14,7 +14,7 @@ export default function MyNav() {
                         <Link to="/signup">
                             Sign Up
                         </Link>
-                        <Link to="signin">
+                        <Link to="/signin">
                             Sign In
                         </Link>
                     </Nav>
