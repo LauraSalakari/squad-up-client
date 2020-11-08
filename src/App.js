@@ -9,6 +9,9 @@ import MyGuestNav from './components/MyGuestNav';
 import SignUpForm from './components/SignUpForm';
 import SignIn from "./components/SignIn"
 import EditProfile from "./components/EditProfile"
+import Settings from './components/Settings';
+import Security from './components/Security';
+import ProfilePage from './components/ProfilePage';
 
 class App extends Component {
 
@@ -135,7 +138,7 @@ class App extends Component {
       let userData = {
         username: this.state.user.username,
         email: this.state.user.email,
-        image: "../public/images/prof-default-icon.png",
+        image: this.state.user.image || "https://res.cloudinary.com/meetpup/image/upload/v1604869142/prof-default-icon_ody7zu.png",
         bio: bio.value,
         platforms: platformData,
         games: gameData,
@@ -145,6 +148,11 @@ class App extends Component {
       Axios.patch(`${API_URL}/profile/edit`, userData, { withCredentials: true })
         .then((response) => {
           console.log(response.data)
+          this.setState({
+            user: response.user
+          }, () => {
+            this.props.history.push(`/profile/${this.state.user._id}`);
+          })
         })
         .catch((err) => {
           console.log(err)
@@ -171,6 +179,11 @@ class App extends Component {
           Axios.patch(`${API_URL}/profile/edit`, userData, { withCredentials: true })
             .then((response) => {
               console.log(response.data)
+              this.setState({
+                user: response.user
+              }, () => {
+                this.props.history.push(`/profile/${this.state.user._id}`);
+              })
             })
             .catch((err) => {
               console.log("prof edit", err)
@@ -182,12 +195,31 @@ class App extends Component {
     }
   }
 
+  handleChangePassword = (e) => {
+    e.preventDefault();
+    const {password, newPassword, confirmPassword} = e.target;
+
+    Axios.patch(`${API_URL}/profile/password`, {
+      password: password,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword
+    }, {withCredentials: true})
+    .then((response) => {
+      console.log("pw change successful")
+      this.setState({
+        user: response.user
+      }, () => {
+        this.props.history.push("/settings");
+      })  
+    })
+  }
+
   render() {
     const { errorMessage, user } = this.state;
 
     return (
       <div className="App">
-        {user ? <MyNav onLogout={this.handleLogout} /> : <MyGuestNav />}
+        {user ? <MyNav onLogout={this.handleLogout} user={user}/> : <MyGuestNav />}
         {user ? (<p>user: {user.username}</p>) : null}
         <Switch>
           <Route exact path="/" component={Landing} />
@@ -197,11 +229,16 @@ class App extends Component {
           <Route path="/signin" render={(routeProps) => {
             return <SignIn onUnmount={this.handleUnmount} errorMessage={errorMessage} onSignIn={this.handleSignIn} {...routeProps} />
           }} />
+          <Route path="/settings" component={Settings} />
           <Route path="/profile/edit" render={(routeProps) => {
             return <EditProfile onEditProfile={this.handleProfileEdit} user={user} {...routeProps} />
           }}
           />
-
+          <Route path="/profile/security" render={(routeProps) => {
+            return <Security user={user} onChangePassword={this.handleChangePassword} {...routeProps} />
+          }}
+          />
+          <Route exact path="/profile/:id" component={ProfilePage}/>
         </Switch>
       </div>
     )

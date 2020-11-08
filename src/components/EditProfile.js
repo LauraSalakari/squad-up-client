@@ -38,7 +38,7 @@ export default function EditProfile(props) {
     useEffect(() =>{
         bsCustomFileInput.init();
 
-        Axios.get(`${API_URL}/platforms`)
+        Axios.get(`${API_URL}/platforms`, {withCredentials: true})
         .then((response) => {
             let platformData = response.data.map((elem) => {
                 return {label: elem.name, value: JSON.stringify(elem)}
@@ -52,7 +52,6 @@ export default function EditProfile(props) {
 
 
     const handleGameSearch = (e) => {
-        console.log("called")
         Axios.get(`https://api.rawg.io/api/games?key=${RAWG_API_KEY}&search=${e}`)
             .then((response) => {
                 // setGames(response.data.results);
