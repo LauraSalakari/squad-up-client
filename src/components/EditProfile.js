@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button } from "react-bootstrap"
 import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
+// import makeAnimated from 'react-select/animated';
 import Axios from "axios"
 import bsCustomFileInput from 'bs-custom-file-input';
 import { RAWG_API_KEY } from "../config";
@@ -13,11 +13,11 @@ require('dotenv').config();
 export default function EditProfile(props) {
 
     const [platforms, setPlatforms] = useState([]);
-    const [userPlatforms, choosePlatforms] = useState([]);  // this will get fed from the user info
-    const [games, setGames] = useState([]);
+    // const [userPlatforms, choosePlatforms] = useState([]);  // this will get fed from the user info
+    // const [games, setGames] = useState([]);
     const [gameTitles, setTitles] = useState([]);
-    const [userGames, setUserGames] = useState([]); // this will get fed from the user info
-    const animatedComponents = makeAnimated();
+    // const [userGames, setUserGames] = useState([]); // this will get fed from the user info
+    // const animatedComponents = makeAnimated();
 
     //this currently controls the react-select dropdown colours for the game search
     const customStyles = {
@@ -35,19 +35,19 @@ export default function EditProfile(props) {
         })
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         bsCustomFileInput.init();
 
-        Axios.get(`${API_URL}/platforms`, {withCredentials: true})
-        .then((response) => {
-            let platformData = response.data.map((elem) => {
-                return {label: elem.name, value: JSON.stringify(elem)}
+        Axios.get(`${API_URL}/platforms`, { withCredentials: true })
+            .then((response) => {
+                let platformData = response.data.map((elem) => {
+                    return { label: elem.name, value: JSON.stringify(elem) }
+                })
+                setPlatforms(platformData);
             })
-            setPlatforms(platformData);
-        })
-        .catch((err) => {
-            console.log(err, "failed to fetch platforms");
-        })
+            .catch((err) => {
+                console.log(err, "failed to fetch platforms");
+            })
     }, [])
 
 
@@ -64,7 +64,7 @@ export default function EditProfile(props) {
 
     // only make api query to RAWG every 400ms to limit the number of queries
     // i think this works?? NOPE!
-    const delayedGameSearch = _.debounce(handleGameSearch, 400, {leading:true});
+    const delayedGameSearch = _.debounce(handleGameSearch, 2000, { leading: true });
 
 
     return (
@@ -74,15 +74,21 @@ export default function EditProfile(props) {
             <Form onSubmit={props.onEditProfile} encType="multipart/form-data" >
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue={props.user.username} />
+                    {
+                        props.user ? (<Form.Control plaintext readOnly defaultValue={props.user.username} />) : null
+                    }
+
                 </Form.Group>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control plaintext readOnly defaultValue={props.user.email} />
+                    {
+                        props.user ? (<Form.Control plaintext readOnly defaultValue={props.user.email} />) : null
+                    }
+
                 </Form.Group>
                 <h5>Profile</h5>
                 <Form.Group>
-                <Form.Label>Profile picture</Form.Label>
+                    <Form.Label>Profile picture</Form.Label>
                     <Form.File
                         id="custom-file"
                         label="Choose a file"

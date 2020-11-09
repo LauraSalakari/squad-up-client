@@ -14,6 +14,7 @@ import Security from './components/Security';
 import ProfilePage from './components/ProfilePage';
 import Squads from './components/Squads';
 import CreateSquad from './components/CreateSquad';
+import SquadDetails from "./components/SquadDetails"
 
 class App extends Component {
 
@@ -94,14 +95,12 @@ class App extends Component {
       })
   }
 
-
   //handle errormessages onunmount for now
   handleUnmount = () => {
     this.setState({
       errorMessage: null
     })
   }
-
 
   // NOTE: if more than one platform is selected, the value is returned in an array
   // eg. e.target.platforms[1].value will store the object that holds all the platform info
@@ -269,6 +268,7 @@ class App extends Component {
             return <CreateSquad user={user} onCreateSquad={this.handleCreateSquad} {...routeProps} />
           }}
           />
+          <Route path="/squads/:id" component={SquadDetails} />
         </Switch>
       </div>
     )
