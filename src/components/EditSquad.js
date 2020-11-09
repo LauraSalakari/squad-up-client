@@ -1,13 +1,23 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Form, Button } from "react-bootstrap"
 import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
 import Axios from "axios"
 import { RAWG_API_KEY } from "../config";
+import { API_URL } from "../config";
 var _ = require('lodash');
 
-export default function CreateSquad(props) {
+export default function EditSquad(props) {
+
+    const [squad, setSquad] = useState(null);
     const [gameTitles, setTitles] = useState([]);
+
+    useEffect(() => {
+        Axios.get(`${API_URL}/squads/${props.match.params.id}`, { withCredentials: true })
+        .then((response) => {
+            setTitles([{label: response.data.game, value: response.data.game}]);
+            setSquad(response.data);
+        })
+    }, [])
 
     //this currently controls the react-select dropdown colours for the game search
     const customStyles = {
@@ -28,7 +38,6 @@ export default function CreateSquad(props) {
     const handleGameSearch = (e) => {
         Axios.get(`https://api.rawg.io/api/games?key=${RAWG_API_KEY}&search=${e}`)
             .then((response) => {
-                // setGames(response.data.results);
                 let titles = response.data.results.map(elem => {
                     return { label: elem.name, value: JSON.stringify(elem) }
                 })
@@ -36,48 +45,62 @@ export default function CreateSquad(props) {
             })
     }
 
-    // only make api query to RAWG every 400ms to limit the number of queries
-    // i think this works??
     const delayedGameSearch = _.debounce(handleGameSearch, 500, { leading: true });
 
-    return (
-        <div>
-            <h3>Create a new squad</h3>
-            <Form onSubmit={props.onCreateSquad}>
+    const handleEditSquad = (e) => {
+        e.preventDefault();
+        const {title, description, maxSize, game} = e.target;
+        let gameTitle = JSON.parse(game.value).name;
+        let edited = {
+            title: title.value,
+            description: description.value,
+            maxSize: maxSize.value,
+            game: gameTitle
+        }
+
+        Axios.patch(`${API_URL}/squads/${props.match.params.id}/edit`, edited, {withCredentials:true})
+        .then((response) => {
+            console.log(response.data);
+            props.history.push(`/squads/${squad._id}`);
+        })
+    }
+
+    if(!squad){
+        return <h3>Edit Your Squad</h3>
+    }
+    else{
+        return (
+            <div>
+                <h3>Edit Your Squad</h3>
+                <Form onSubmit={handleEditSquad}>
                 <Form.Group >
                     <Form.Label>Title</Form.Label>
-                    <Form.Control type="text" placeholder="Squad title" name="title" />
+                    <Form.Control type="text" defaultValue={squad.title} name="title" />
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Description</Form.Label>
-                    <Form.Control as="textarea" rows={5} name="description" />
+                    <Form.Control as="textarea" rows={5} name="description" defaultValue={squad.description} />
                 </Form.Group>
                 <Form.Group >
                     <Form.Label>Max squad size</Form.Label>
-                    <Form.Control type="number" name="maxSize" defaultValue={2} />
+                    <Form.Control type="number" name="maxSize" defaultValue={squad.maxSize} />
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Select the game</Form.Label>
                     <Select
                         onInputChange={delayedGameSearch}
-                        // closeMenuOnSelect={false}
+                        closeMenuOnSelect={false}
+                        defaultValue={gameTitles[0]}
                         options={gameTitles}
                         styles={customStyles}
                         name="game"
                     />
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                    Create!
+                    Edit!
                 </Button>
             </Form>
-        </div>
-    )
+            </div>
+        )
+    }
 }
-
-/*
-form needs:
-    game - borrow code from edit profile
-    title
-    description
-    maxSize
-*/

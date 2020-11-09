@@ -15,6 +15,7 @@ import ProfilePage from './components/ProfilePage';
 import Squads from './components/Squads';
 import CreateSquad from './components/CreateSquad';
 import SquadDetails from "./components/SquadDetails"
+import EditSquad from './components/EditSquad';
 
 class App extends Component {
 
@@ -49,7 +50,7 @@ class App extends Component {
         this.setState({
           user: response.data
         }, () => {
-          this.props.history.push("/"); //change this to prof edit page!!// technically this shouldn't change the user state??
+          this.props.history.push("/profile/edit"); //change this to prof edit page!!// technically this shouldn't change the user state??
         })
       })
       .catch((err) => {
@@ -233,7 +234,7 @@ class App extends Component {
     Axios.post(`${API_URL}/squads/create`, data, {withCredentials: true})
     .then((response) => {
       console.log(response.data)
-      // redirect to details page
+      this.props.history.push(`/squads/${response.data._id}`)
     })
 
   }
@@ -268,7 +269,10 @@ class App extends Component {
             return <CreateSquad user={user} onCreateSquad={this.handleCreateSquad} {...routeProps} />
           }}
           />
-          <Route path="/squads/:id" component={SquadDetails} />
+          <Route exact path="/squads/:id" render={(routeProps) => {
+            return <SquadDetails user={user} {...routeProps} />
+          }} />
+          <Route path="/squads/:id/edit" component={EditSquad} />
         </Switch>
       </div>
     )
