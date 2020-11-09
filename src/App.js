@@ -12,6 +12,8 @@ import EditProfile from "./components/EditProfile"
 import Settings from './components/Settings';
 import Security from './components/Security';
 import ProfilePage from './components/ProfilePage';
+import Squads from './components/Squads';
+import CreateSquad from './components/CreateSquad';
 
 class App extends Component {
 
@@ -214,6 +216,28 @@ class App extends Component {
     })
   }
 
+  handleCreateSquad = (e) => {
+    e.preventDefault();
+    const {title, description, game, maxSize} = e.target;
+    let setGame = JSON.parse(game.value);
+
+    let data = {
+      title: title.value,
+      description: description.value,
+      game: setGame.name,
+      maxSize: maxSize.value,
+      creator: this.state.user._id,
+      members: [this.state.user._id]
+    }
+
+    console.log("create squad called", data);
+    Axios.post(`${API_URL}/squads/create`, data, {withCredentials: true})
+    .then((response) => {
+      console.log(response.data)
+    })
+
+  }
+
   render() {
     const { errorMessage, user } = this.state;
 
@@ -239,6 +263,11 @@ class App extends Component {
           }}
           />
           <Route exact path="/profile/:id" component={ProfilePage}/>
+          <Route exact path="/squads" component={Squads} />
+          <Route path="/squads/create" render={(routeProps) => {
+            return <CreateSquad user={user} onCreateSquad={this.handleCreateSquad} {...routeProps} />
+          }}
+          />
         </Switch>
       </div>
     )

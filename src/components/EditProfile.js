@@ -63,7 +63,7 @@ export default function EditProfile(props) {
     }
 
     // only make api query to RAWG every 400ms to limit the number of queries
-    // i think this works??
+    // i think this works?? NOPE!
     const delayedGameSearch = _.debounce(handleGameSearch, 400, {leading:true});
 
 
