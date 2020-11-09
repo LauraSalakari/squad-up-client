@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import "./App.css";
-import { withRouter, Route, Switch } from 'react-router-dom';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { API_URL } from "./config";
 import Axios from 'axios';
 import Landing from './components/Landing';
@@ -234,6 +234,7 @@ class App extends Component {
     Axios.post(`${API_URL}/squads/create`, data, {withCredentials: true})
     .then((response) => {
       console.log(response.data)
+      // redirect to details page
     })
 
   }
