@@ -52,7 +52,8 @@ export default function EditProfile(props) {
 
 
     const handleGameSearch = (e) => {
-        Axios.get(`https://api.rawg.io/api/games?key=${RAWG_API_KEY}&search=${e}`)
+        console.log(process.env)
+        Axios.get(`https://api.rawg.io/api/games?key=${process.env.REACT_APP_RAWG_API_KEY}&search=${e}`)
             .then((response) => {
                 // setGames(response.data.results);
                 let titles = response.data.results.map(elem => {
@@ -62,9 +63,7 @@ export default function EditProfile(props) {
             })
     }
 
-    // only make api query to RAWG every 400ms to limit the number of queries
-    // i think this works?? NOPE!
-    const delayedGameSearch = _.debounce(handleGameSearch, 2000, { leading: true });
+    const delayedGameSearch = _.debounce(handleGameSearch, 500);
 
 
     return (
