@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import "./App.css";
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { withRouter, Route, Switch } from 'react-router-dom';
 import { API_URL } from "./config";
 import Axios from 'axios';
 import Landing from './components/Landing';
@@ -16,6 +16,9 @@ import Squads from './components/Squads';
 import CreateSquad from './components/CreateSquad';
 import SquadDetails from "./components/SquadDetails"
 import EditSquad from './components/EditSquad';
+import Forums from './components/Forums';
+import CreateThread from './components/CreateThread';
+import PostDetails from "./components/PostDetails"
 
 class App extends Component {
 
@@ -273,6 +276,13 @@ class App extends Component {
             return <SquadDetails user={user} {...routeProps} />
           }} />
           <Route path="/squads/:id/edit" component={EditSquad} />
+          <Route exact path="/forums" component={Forums} />
+          <Route path="/forums/new" render={(routeProps) => {
+            return <CreateThread user={user} {...routeProps} />
+          }} />
+          <Route path="/forums/:id" render={(routeProps) => {
+            return <PostDetails user={user} {...routeProps}/>
+          }} />
         </Switch>
       </div>
     )
