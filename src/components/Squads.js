@@ -37,7 +37,8 @@ export default function Squads() {
             <Form.Control type="text" placeholder="Search squads" name="squadSearch" onChange={handleSquadSearch} />
             <div>
                 {
-                    filtered.map((elem) => {
+                    squads ? (
+                        filtered.map((elem) => {
                         return <Link key={elem._id} to={`/squads/${elem._id}`} style={{textDecoration: "none", color: "#e7e0ec"}} >
                             <div style={{ border: "1px #e7e0ec solid", padding: 5, margin: 10 }}>
                                 <h5>{elem.title}</h5>
@@ -47,6 +48,7 @@ export default function Squads() {
                             </div>
                         </Link>
                     })
+                    ) : (null)
                 }
             </div>
         </div>

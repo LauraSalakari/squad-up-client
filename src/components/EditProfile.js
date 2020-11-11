@@ -63,7 +63,6 @@ export default function EditProfile(props) {
 
 
     const handleGameSearch = (e) => {
-        console.log(process.env)
         Axios.get(`https://api.rawg.io/api/games?key=${process.env.REACT_APP_RAWG_API_KEY}&search=${e}`)
             .then((response) => {
                 // setGames(response.data.results);
@@ -130,12 +129,13 @@ export default function EditProfile(props) {
                             options={platforms}
                             styles={customStyles}
                             name="platforms"
-                            // defaultValue={
-                            //     props.user.platforms.map((elem) => {
-                            //         console.log(elem)
-                            //         return {label: JSON.parse(elem).name, value: elem}
-                            //     })
-                            // }
+                            defaultValue={
+                                (props.user.platforms) ? (
+                                    props.user.platforms.map((elem) => {
+                                    return {label: JSON.parse(elem).name, value: elem}
+                                })
+                                ) : (null)
+                            }
                         />
     
                     </Form.Group>

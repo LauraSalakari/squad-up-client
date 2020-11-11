@@ -37,7 +37,8 @@ export default function Forums(props) {
                 <Form.Control type="text" placeholder="Search posts" name="threadSearch" onChange={handleThreadSearch} />
                 <div>
                     {
-                        filtered.map((elem) => {
+                        threads ? (
+                            filtered.map((elem) => {
                             return <Link to={`/forums/${elem._id}`}>
                                 <div style={{ border: "1px #e7e0ec solid", padding: 5, margin: 10, textDecoration: "none", color: "#e7e0ec" }}>
                                     <h4>{elem.title}</h4>
@@ -46,6 +47,8 @@ export default function Forums(props) {
                                 </div>
                             </Link>
                         })
+                        ) : (null)
+                        
                     }
                 </div>
             </div>

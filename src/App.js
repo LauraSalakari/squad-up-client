@@ -156,7 +156,9 @@ class App extends Component {
           this.setState({
             user: response.data
           }, () => {
-            this.props.history.push(`/profile/${this.state.user._id}`);
+            // this.props.history.push(`/profile/${this.state.user._id}`);
+            this.props.history.push(`/`);
+
           })
         })
         .catch((err) => {
@@ -187,7 +189,8 @@ class App extends Component {
               this.setState({
                 user: response.user
               }, () => {
-                this.props.history.push(`/profile/${this.state.user._id}`);
+                // this.props.history.push(`/profile/${this.state.user._id}`);
+                this.props.history.push(`/`);
               })
             })
             .catch((err) => {
