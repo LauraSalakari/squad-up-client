@@ -4,6 +4,7 @@ import { API_URL } from "../config";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import moment from 'moment';
+import { render } from '@testing-library/react';
 
 export default function SquadDetails(props) {
     const [squad, setSquad] = useState(null)
@@ -25,7 +26,7 @@ export default function SquadDetails(props) {
         console.log("clicked", props.user.username)
         Axios.patch(`${API_URL}/squads/${props.match.params.id}/join`, { userId: props.user._id }, { withCredentials: true })
             .then((response) => {
-                setSquad(response.data)
+                setSquad(response.data);
             })
             .catch((err) => {
                 console.log(err)

@@ -154,7 +154,7 @@ class App extends Component {
         .then((response) => {
           console.log(response.data)
           this.setState({
-            user: response.user
+            user: response.data
           }, () => {
             this.props.history.push(`/profile/${this.state.user._id}`);
           })
