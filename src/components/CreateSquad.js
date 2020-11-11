@@ -5,6 +5,7 @@ import makeAnimated from 'react-select/animated';
 import Axios from "axios"
 import { RAWG_API_KEY } from "../config";
 var _ = require('lodash');
+require('dotenv').config();
 
 export default function CreateSquad(props) {
     const [gameTitles, setTitles] = useState([]);
@@ -26,7 +27,7 @@ export default function CreateSquad(props) {
     }
 
     const handleGameSearch = (e) => {
-        Axios.get(`https://api.rawg.io/api/games?key=${RAWG_API_KEY}&search=${e}`)
+        Axios.get(`https://api.rawg.io/api/games?key=${process.env.REACT_APP_RAWG_API_KEY}&search=${e}`)
             .then((response) => {
                 // setGames(response.data.results);
                 let titles = response.data.results.map(elem => {

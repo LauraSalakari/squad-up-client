@@ -5,6 +5,7 @@ import Axios from "axios"
 import { RAWG_API_KEY } from "../config";
 import { API_URL } from "../config";
 var _ = require('lodash');
+require('dotenv').config();
 
 export default function EditSquad(props) {
 
@@ -36,7 +37,7 @@ export default function EditSquad(props) {
     }
 
     const handleGameSearch = (e) => {
-        Axios.get(`https://api.rawg.io/api/games?key=${RAWG_API_KEY}&search=${e}`)
+        Axios.get(`https://api.rawg.io/api/games?key=${process.env.REACT_APP_RAWG_API_KEY}&search=${e}`)
             .then((response) => {
                 let titles = response.data.results.map(elem => {
                     return { label: elem.name, value: JSON.stringify(elem) }
@@ -50,7 +51,7 @@ export default function EditSquad(props) {
     const handleEditSquad = (e) => {
         e.preventDefault();
         const {title, description, maxSize, game} = e.target;
-        let gameTitle = JSON.parse(game.value).name;
+        let gameTitle = game.value.name;
         let edited = {
             title: title.value,
             description: description.value,

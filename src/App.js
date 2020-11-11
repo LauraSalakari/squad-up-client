@@ -19,6 +19,7 @@ import EditSquad from './components/EditSquad';
 import Forums from './components/Forums';
 import CreateThread from './components/CreateThread';
 import PostDetails from "./components/PostDetails"
+import EditPost from './components/EditPost';
 
 class App extends Component {
 
@@ -156,8 +157,8 @@ class App extends Component {
           this.setState({
             user: response.data
           }, () => {
-            // this.props.history.push(`/profile/${this.state.user._id}`);
-            this.props.history.push(`/`);
+            this.props.history.push(`/profile/${this.state.user._id}`);
+            // this.props.history.push(`/`);
 
           })
         })
@@ -187,10 +188,10 @@ class App extends Component {
             .then((response) => {
               console.log(response.data)
               this.setState({
-                user: response.user
+                user: response.data
               }, () => {
-                // this.props.history.push(`/profile/${this.state.user._id}`);
-                this.props.history.push(`/`);
+                this.props.history.push(`/profile/${this.state.user._id}`);
+                // this.props.history.push(`/`);
               })
             })
             .catch((err) => {
@@ -215,7 +216,7 @@ class App extends Component {
     .then((response) => {
       console.log("pw change successful")
       this.setState({
-        user: response.user
+        user: response.data
       }, () => {
         this.props.history.push("/settings");
       })  
@@ -283,9 +284,10 @@ class App extends Component {
           <Route path="/forums/new" render={(routeProps) => {
             return <CreateThread user={user} {...routeProps} />
           }} />
-          <Route path="/forums/:id" render={(routeProps) => {
+          <Route exact path="/forums/:id" render={(routeProps) => {
             return <PostDetails user={user} {...routeProps}/>
           }} />
+          <Route path="/forums/:id/edit" component={EditPost} />
         </Switch>
       </div>
     )

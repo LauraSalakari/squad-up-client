@@ -43,6 +43,13 @@ export default function PostDetails(props) {
             e.target.content.value = "";
         })
     }
+
+    const handlePostDelete = () => {
+        Axios.delete(`${API_URL}/forums/${props.match.params.id}/delete`, {withCredentials: true})
+        .then(() => {
+            props.history.push("/forums")
+        })
+    }
  
     if(!post) return null;
     else{
@@ -56,7 +63,10 @@ export default function PostDetails(props) {
                 {moment(post.createdAt).format("LLL")} <br/>
                 {
                     (props.user._id === post.author._id) ? (
-                        <Button>Edit</Button>
+                        <div>
+                        <Link to={`/forums/${props.match.params.id}/edit`}><Button>Edit</Button></Link>
+                        <Button onClick={handlePostDelete} variant="danger">Delete</Button>
+                        </div>
                     ) : null
                 }
                 <Form onSubmit={handleAddComment}>
