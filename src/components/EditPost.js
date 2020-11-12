@@ -34,8 +34,8 @@ export default function EditPost(props) {
     if (!post) return null;
     else {
         return (
-            <div>
-                <h2>Edit your post</h2>
+            <div style={{textAlign: "center"}}>
+                <h2 style={{marginBottom: 20, color: "#84d812"}}>Edit your post</h2>
                 <Form onSubmit={handlePostEdit}>
                     <Form.Group>
                         <Form.Control size="lg" type="text" placeholder="Post title" name="title" defaultValue={post.title} />
@@ -43,7 +43,7 @@ export default function EditPost(props) {
                     <Form.Group>
                         <Form.Control as="textarea" rows={8} name="content" defaultValue={post.content} />
                     </Form.Group>
-                    <Button type="submit">Post</Button>
+                    <Button type="submit" style={{backgroundColor: "#84d812", border:"1px solid #84d812", marginTop: 15}}>Post</Button>
                 </Form>
             </div>
         )

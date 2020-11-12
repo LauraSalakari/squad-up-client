@@ -28,26 +28,30 @@ export default function Squads() {
     }
 
     return (
-        <div>
-            <Link to="/squads/create">
-                <Button variant="primary" size="lg" block>
-                    Create a Squad!
+        <div className="squads-main">
+            <h2>Find a Squad!</h2>
+            <div className="squads-utilities">
+                <Link to="/squads/create">
+                    <Button style={{ color: "#d81284", border: "1px solid #d81284", marginBottom: 10 }} variant="outline" block>
+                        Create a Squad!
                 </Button>
-            </Link>
-            <Form.Control type="text" placeholder="Search squads" name="squadSearch" onChange={handleSquadSearch} />
-            <div>
+                </Link>
+                <Form.Control type="text" placeholder="Search squads" name="squadSearch" onChange={handleSquadSearch} />
+            </div>
+            <div className="squad-div-container">
                 {
                     squads ? (
                         filtered.map((elem) => {
-                        return <Link key={elem._id} to={`/squads/${elem._id}`} style={{textDecoration: "none", color: "#e7e0ec"}} >
-                            <div style={{ border: "1px #e7e0ec solid", padding: 5, margin: 10 }}>
-                                <h5>{elem.title}</h5>
-                                <p><b>Game: </b>{elem.game}</p>
-                                <p><b>Creator: </b><Link to={`/profile/${elem.creator._id}`}>{elem.creator.username}</Link></p>
-                                {moment(elem.createdAt).format("LLL")}
+                            return <div key={elem._id} className="indiv-squad-main">
+                                <Link to={`/squads/${elem._id}`} style={{ textDecoration: "none", color: "#e7e0ec" }} >
+                                    <h5>{elem.title}</h5>
+                                    <p><b>Game: </b>{elem.game}</p>
+                                    <p><b>Creator: </b><Link to={`/profile/${elem.creator._id}`}>{elem.creator.username}</Link></p>
+                                    {moment(elem.createdAt).format("LLL")}
+                                </Link>
                             </div>
-                        </Link>
-                    })
+
+                        })
                     ) : (null)
                 }
             </div>

@@ -19,32 +19,31 @@ export default function ChatLog(props) {
                         })
                 })
         }
-        else{
+        else {
             Axios.get(`${API_URL}/profile/${user._id}/squads`, { withCredentials: true })
-            .then((response) => {
-                setSquads(response.data);
-            })
+                .then((response) => {
+                    setSquads(response.data);
+                })
         }
     }, [])
 
 
     return (
-        <div>
-            <h2>Chats</h2>
+        <div className="chatlog-div">
+            <h2 style={{ color: "#d81284" }}>Chats</h2>
             {
                 squads ? (<div>
                     {
                         squads.map((elem) => {
-                            return <Link to={`/chat/${elem._id}`} key={elem._id} style={{ textDecoration: "none", color: "#e7e0ec"}}>
-                                <div style={{border: "1px #e7e0ec solid", padding: 5, margin: 10 }}>
+                            return <div className="chat-detail-div" key={elem._id}>
+                                <Link to={`/chat/${elem._id}`}  style={{ textDecoration: "none", color: "#e7e0ec" }}>
                                     <h6>{elem.title}</h6>
-                                    <p>Creator: <b><Link to={`profile/${elem.creator._id}`}>{elem.creator.username}</Link> </b></p>
-                                </div>
-                            </Link>
-
+                                    <p>Creator: <b><Link to={`/profile/${elem.creator._id}`}>{elem.creator.username}</Link> </b></p>
+                                </Link>
+                            </div>
                         })
                     }
-                </div>) : (<p>No chats yet, join a squad to start chatting!</p>)
+                </div>) : (<div>No chats yet, join a squad to start chatting!</div>)
             }
         </div>
     )

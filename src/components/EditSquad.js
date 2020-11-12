@@ -71,8 +71,8 @@ export default function EditSquad(props) {
     }
     else{
         return (
-            <div>
-                <h3>Edit Your Squad</h3>
+            <div style={{textAlign: "center"}}>
+                <h2 style={{marginBottom: 20, color: "#d81284"}}>Edit Your Squad</h2>
                 <Form onSubmit={handleEditSquad}>
                 <Form.Group >
                     <Form.Label>Title</Form.Label>
@@ -97,7 +97,7 @@ export default function EditSquad(props) {
                         name="game"
                     />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button style={{backgroundColor: "#d81284", border:"1px solid #d81284", marginTop: 15}}type="submit">
                     Edit!
                 </Button>
             </Form>

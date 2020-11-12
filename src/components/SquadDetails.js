@@ -56,42 +56,48 @@ export default function SquadDetails(props) {
     }
     else {
         return (
-            <div>
+            <div className="squad-details-div">
                 <h3>{squad.title}</h3>
-                <p>Game: <b>{squad.game}</b></p>
-                <p>Creator: <Link to={`/profile/${squad.creator._id}`}>{squad.creator.username}</Link></p>
-                <p>Created at: {moment(squad.createdAt).format("LLL")}</p>
-                <p style={{ border: "1px #e7e0ec solid", padding: 15, margin: 10, borderRadius: 6 }}>
-                    <b>Description:</b> <br />
-                    {squad.description}
-                </p>
-                <div>
-                    <h5>Squad members:</h5>
-                    <dl>
-                        {
-                            squad.members.map((elem) => {
-                                return <li key={elem._id}><Link to={`/profile/${elem._id}`}>{elem.username}</Link></li>
-                            })
-                        }
-                    </dl>
-                </div>
-                {
-                    (props.user._id == squad.creator._id) ? (
-                        <div>
-                            <Link to={`/chat/${squad._id}`}><Button>Go to chat</Button></Link>
-                            <Button variant="danger" onClick={handleDeleteSquad}>Delete Squad</Button>
-                            <Link to={`/squads/${squad._id}/edit`}><Button variant="secondary">Edit Squad</Button></Link>
-                        </div>
-                    ) : (
-                            (members.includes(props.user._id)) ? (
-                                <>
-                                    <Link to={`/chat/${squad._id}`}><Button>Go to chat</Button></Link>
-                                    <Button variant="danger" onClick={handleLeaveSquad}>Leave Squad</Button>
-                                </>
-                            ) : ((members.length < squad.maxSize) ? (<Button variant="primary" onClick={handleJoinSquad}>Join Squad</Button>) : (null))
-                        )
-                }
+                <div className="squad-div-container">
+                    <div className="squad-details">
+                        <p>Game: <b>{squad.game}</b></p>
+                        <p>Creator: <Link to={`/profile/${squad.creator._id}`}>{squad.creator.username}</Link></p>
+                        <p>
+                            <b>Description:</b> <br />
+                            {squad.description}
+                        </p>
+                        <p style={{fontSize: "0.8em"}}>Created at: {moment(squad.createdAt).format("LLL")}</p>
 
+                    </div>
+                    <div className="squad-details">
+                        <h5>Squad members:</h5>
+                        <dl>
+                            {
+                                squad.members.map((elem) => {
+                                    return <li key={elem._id}><Link to={`/profile/${elem._id}`}>{elem.username}</Link></li>
+                                })
+                            }
+                        </dl>
+                    </div>
+                </div>
+                <div>
+                    {
+                        (props.user._id == squad.creator._id) ? (
+                            <div>
+                                <Link to={`/chat/${squad._id}`}><Button variant="outline-primary">Go to chat</Button></Link>
+                                <Button variant="outline-danger" onClick={handleDeleteSquad}>Delete Squad</Button>
+                                <Link to={`/squads/${squad._id}/edit`}><Button variant="outline-secondary">Edit Squad</Button></Link>
+                            </div>
+                        ) : (
+                                (members.includes(props.user._id)) ? (
+                                    <>
+                                        <Link to={`/chat/${squad._id}`}><Button>Go to chat</Button></Link>
+                                        <Button variant="outline-danger" onClick={handleLeaveSquad}>Leave Squad</Button>
+                                    </>
+                                ) : ((members.length < squad.maxSize) ? (<Button variant="outline-primary" onClick={handleJoinSquad}>Join Squad</Button>) : (null))
+                            )
+                    }
+                </div>
             </div>
         )
     }

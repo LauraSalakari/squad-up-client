@@ -3,7 +3,9 @@ import io from "socket.io-client";
 import { SOCKET_URL } from "../config";
 import { API_URL } from "../config";
 import Axios from 'axios';
-import {Form} from "react-bootstrap"
+import { Form, Spinner } from "react-bootstrap"
+import { FiSend } from "react-icons/fi"
+
 
 let socket;
 const CONNECTION_PORT = SOCKET_URL;
@@ -14,6 +16,7 @@ export default function Chat(props) {
     const [messageList, setMessageList] = useState([]);
     const [user, setUser] = useState(null);
     const [connected, setConnected] = useState(false)
+    const [squad, setSquad] = useState(null)
 
     useEffect(() => {
         setUser(props.user);
@@ -24,11 +27,20 @@ export default function Chat(props) {
                 })
         }
         console.log(props.user)
-        
-        Axios.get(`${API_URL}/chat/${props.match.params.id}`, {withCredentials: true})
-        .then((response) => {
-            if(response.data) setMessageList(response.data);
-        })
+
+        Axios.get(`${API_URL}/chat/${props.match.params.id}`, { withCredentials: true })
+            .then((response) => {
+                if (response.data) setMessageList(response.data);
+            })
+
+        Axios.get(`${API_URL}/squads/${props.match.params.id}`, { withCredentials: true })
+            .then((response) => {
+
+                setSquad(response.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
 
         socket = io(CONNECTION_PORT);
         connectToRoom();
@@ -70,22 +82,25 @@ export default function Chat(props) {
     }, [])
 
 
-    if (user && room && connected) {
-        return (
+    if (user && room && connected && squad) {
+        return (<div className="chat-main-div">
+            <h2 style={{ textAlign: "center" }}>{squad.title}</h2>
             <div className="chatContainer">
-                <div className="messages">
-                    {messageList.map((val, key) => {
-                        return (
-                            <div
-                                className="messageContainer"
-                                id={val.senderId == user._id ? "You" : "Other"}
-                            >
-                                <div className="messageIndividual">
-                                    {val.senderName}: {val.content}
+                <div className="scroll-container">
+                    <div className="messages">
+                        {messageList.map((val, key) => {
+                            return (
+                                <div
+                                    className="messageContainer"
+                                    id={val.senderId == user._id ? "You" : "Other"}
+                                >
+                                    <div className="messageIndividual">
+                                        <span style={{ color: "#283239" }}>{val.senderName}:</span> {val.content}
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
 
                 <div className="messageInputs">
@@ -98,14 +113,15 @@ export default function Chat(props) {
                                 setMessage(e.target.value);
                             }}
                         />
-                        <button type="submit">Send</button>
+                        <button type="submit"><FiSend /></button>
                     </Form>
                 </div>
             </div>
-        )
+        </div>)
     }
     else {
-        return <div>this is the chat {props.match.params.id}</div>
+        return <Spinner animation="grow" variant="secondary" />
+
     }
 
 }

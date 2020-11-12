@@ -8,7 +8,8 @@ export default function SignIn(props) {
         return props.onUnmount
     }, [])
 
-    return (
+    return (<div style={{textAlign: "center"}}>
+    <h2 style={{marginBottom: 20, color: "#9800FF"}}>Sign In</h2>
             <Form onSubmit={props.onSignIn}>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email Address</Form.Label>
@@ -18,7 +19,7 @@ export default function SignIn(props) {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Password" name="password" />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button type="submit" style={{backgroundColor: "#9800FF", border:"1px solid #9800FF", marginTop: 15}}>
                     Signup
                 </Button>
                 {
@@ -27,5 +28,6 @@ export default function SignIn(props) {
                 ) : null
             }
             </Form>
+            </div>
     )
 }

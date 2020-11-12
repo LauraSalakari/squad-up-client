@@ -7,8 +7,9 @@ export default function SignUpForm(props) {
         return props.onUnmount
     }, [])
 
-    return (
-            <Form onSubmit={props.onSignUp}>
+    return (<div style={{textAlign: "center"}}>
+        <h2 style={{marginBottom: 20, color: "#9800FF"}}>Sign Up</h2>
+            <Form onSubmit={props.onSignUp} >
                 <Form.Group>
                     <Form.Label>Username</Form.Label>
                     <Form.Control type="text" placeholder="Enter username" name="username"/>
@@ -28,7 +29,7 @@ export default function SignUpForm(props) {
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control type="password" placeholder="Confirm password" name="confirmPassword" />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button type="submit" style={{backgroundColor: "#9800FF", border:"1px solid #9800FF", marginTop: 15}}>
                     Signup
                 </Button>
                 {
@@ -37,5 +38,6 @@ export default function SignUpForm(props) {
                 ) : null
             }
             </Form>
+            </div>
     )
 }

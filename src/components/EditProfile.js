@@ -14,10 +14,7 @@ export default function EditProfile(props) {
 
     const [platforms, setPlatforms] = useState([]);
     const [userInfo, setUserInfo] = useState(props.user)
-    const [userPlatforms, choosePlatforms] = useState([]);  // this will get fed from the user info
-    // const [games, setGames] = useState([]);
     const [gameTitles, setTitles] = useState([]);
-    const [userGames, setUserGames] = useState([]); // this will get fed from the user info
     // const animatedComponents = makeAnimated();
 
     //this currently controls the react-select dropdown colours for the game search
@@ -49,16 +46,6 @@ export default function EditProfile(props) {
             .catch((err) => {
                 console.log(err, "failed to fetch platforms");
             })
-
-            // Axios.get(`${API_URL}/profile/${userInfo._id}`, {withCredentials: true})
-            // .then((response) => {
-            //     let gamesData = JSON.parse(response.data.games);
-            //     let platformData = JSON.parse(response.data.platforms);
-            //     console.log(gamesData, platformData);
-            // })
-            // .catch((err) => {
-            //     console.log(err, "failed to get user details")
-            // })
     }, [])
 
 
@@ -76,94 +63,102 @@ export default function EditProfile(props) {
     const delayedGameSearch = _.debounce(handleGameSearch, 500);
 
 
-    if(!props.user) return null;
-    else{
+    if (!props.user) return null;
+    else {
         return (
-            <div>
+            <div className="account-settings-main">
                 <h3>Edit your profile</h3>
-                <h5>Account Details</h5>
+
                 <Form onSubmit={props.onEditProfile} encType="multipart/form-data" >
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Username</Form.Label>
-                        {
-                            props.user ? (<Form.Control plaintext readOnly defaultValue={props.user.username} style={{color: "#e7e0ec"}}/>) : null
-                        }
-    
-                    </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        {
-                            props.user ? (<Form.Control plaintext readOnly defaultValue={props.user.email} style={{color: "#e7e0ec"}}/>) : null
-                        }
-    
-                    </Form.Group>
-                    <h5>Profile</h5>
-                    <Form.Group>
-                        <Form.Label>Profile picture</Form.Label>
-                        <div>
-                            Your current profile picture: <br />
-                            {
-                                props.user.image ? (<img src={props.user.image} alt="profile preview" style={{width: 100, borderRadius: "50%"}}/>) : "No profile picture set"
-                            }
+                    <div className="acc-containers-macro">
+                        <div className="account-containers">
+                            <h5>Account Details</h5>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Username</Form.Label>
+                                {
+                                    props.user ? (<Form.Control readOnly defaultValue={props.user.username} style={{ color: "#636c73" }} />) : null
+                                }
+
+                            </Form.Group>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Email address</Form.Label>
+                                {
+                                    props.user ? (<Form.Control readOnly defaultValue={props.user.email} style={{ color: "#636c73" }} />) : null
+                                }
+
+                            </Form.Group>
+                            <h5 style={{marginTop: 30}}>Profile Picture</h5>
+                            <Form.Group>
+                                <div>
+                                    Your current profile picture: <br />
+                                    {
+                                        props.user.image ? (<img src={props.user.image} alt="profile preview" style={{ width: 100, borderRadius: "50%" }} />) : "No profile picture set"
+                                    }
+                                </div>
+                                <p>Upload a new picture:</p>
+                                <Form.File
+                                    id="custom-file"
+                                    label="Choose a file"
+                                    class="custom-file-input"
+                                    custom
+                                    name="image"
+                                    accept="image/png, image/jpeg"
+                                    style={{textAlign: "left"}}
+                                />
+
+                            </Form.Group>
                         </div>
-                        <p>Upload a new picture:</p>
-                        <Form.File
-                            id="custom-file"
-                            label="Choose a file"
-                            class="custom-file-input"
-                            custom
-                            name="image"
-                            accept="image/png, image/jpeg"
-                        />
-                        
-                    </Form.Group>
-                    <Form.Group controlId="exampleForm.ControlTextarea1">
-                        <Form.Label>About Me</Form.Label>
-                        <Form.Control as="textarea" rows={5} name="bio" defaultValue={props.user.bio}/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Choose your platforms</Form.Label>
-                        <Select
-                            closeMenuOnSelect={false}
-                            isMulti
-                            options={platforms}
-                            styles={customStyles}
-                            name="platforms"
-                            defaultValue={
-                                (props.user.platforms) ? (
-                                    props.user.platforms.map((elem) => {
-                                    return {label: JSON.parse(elem).name, value: elem}
-                                })
-                                ) : (null)
-                            }
-                        />
-    
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Select your favourite games</Form.Label>
-                        <Select
-                            onInputChange={delayedGameSearch}
-                            closeMenuOnSelect={false}
-                            isMulti
-                            options={gameTitles}
-                            styles={customStyles}
-                            name="games"
-                            defaultValue={
-                                (props.user.games) ? (
-                                    props.user.games.map((elem) => {
-                                    return {label: JSON.parse(elem).name, value: elem}
-                                })
-                                ) : (null)
-                            }
-                        />
-                    </Form.Group>
-    
+                        <div className="account-containers">
+                        <h5>Profile</h5>
+                            <Form.Group controlId="exampleForm.ControlTextarea1">
+                                <Form.Label>About Me</Form.Label>
+                                <Form.Control as="textarea" rows={5} name="bio" defaultValue={props.user.bio} />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Choose your platforms</Form.Label>
+                                <Select
+                                    closeMenuOnSelect={false}
+                                    isMulti
+                                    options={platforms}
+                                    styles={customStyles}
+                                    name="platforms"
+                                    defaultValue={
+                                        (props.user.platforms) ? (
+                                            props.user.platforms.map((elem) => {
+                                                return { label: JSON.parse(elem).name, value: elem }
+                                            })
+                                        ) : (null)
+                                    }
+                                />
+
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Select your favourite games</Form.Label>
+                                <Select
+                                    onInputChange={delayedGameSearch}
+                                    closeMenuOnSelect={false}
+                                    isMulti
+                                    options={gameTitles}
+                                    styles={customStyles}
+                                    name="games"
+                                    defaultValue={
+                                        (props.user.games) ? (
+                                            props.user.games.map((elem) => {
+                                                return { label: JSON.parse(elem).name, value: elem }
+                                            })
+                                        ) : (null)
+                                    }
+                                />
+                            </Form.Group>
+                        </div>
+                    </div>
                     <Button variant="primary" type="submit">
-                        Submit
+                        Edit Profile
                     </Button>
+
                 </Form>
             </div>
         )
     }
-    
+
 }

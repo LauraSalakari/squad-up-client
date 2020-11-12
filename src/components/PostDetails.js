@@ -54,30 +54,30 @@ export default function PostDetails(props) {
     if(!post) return null;
     else{
         return (
-            <div>
-                <h3>{post.title}</h3>
+            <div style={{textAlign: "center"}}>
+                <h3 style={{color: "#84d812"}}>{post.title}</h3>
                 <p>Author: <Link to={`/profile/${post.author._id}`}>{post.author.username}</Link> </p>
-                <div style={{border: "1px #e7e0ec solid", padding: 5, margin: 10,}}>
+                <div className="postContentDiv">
                     {post.content}
                 </div>
                 {moment(post.createdAt).format("LLL")} <br/>
                 {
                     (props.user._id === post.author._id) ? (
                         <div>
-                        <Link to={`/forums/${props.match.params.id}/edit`}><Button>Edit</Button></Link>
-                        <Button onClick={handlePostDelete} variant="danger">Delete</Button>
+                        <Link to={`/forums/${props.match.params.id}/edit`}><Button variant="outline-primary" style={{margin: 10}}>Edit</Button></Link>
+                        <Button onClick={handlePostDelete} variant="outline-danger" style={{margin: 10}}>Delete</Button>
                         </div>
                     ) : null
                 }
                 <Form onSubmit={handleAddComment}>
                     <Form.Control as="textarea" rows={3} name="content" />
-                    <Button type="submit" variant="secondary">Comment</Button>
+                    <Button type="submit" variant="secondary" block style={{marginBottom: 20}}>Comment</Button>
                 </Form>
                 {
                     (!comments) ? (null) : ( <div>
                     {
                         comments.map((elem) => {
-                           return <div key={elem._id} style={{border: "1px #e7e0ec solid", padding: 5, margin: 10,}}>
+                           return <div key={elem._id} style={{border: "1px #84d812 solid", padding: 5, margin: 10,}}>
                                 <Link to={`/profile/${elem.author._id}`}><b>{elem.author.username}</b></Link>
                                 <p>{elem.content}</p>
                                 {moment(elem.createdAt).format("LLL")}

@@ -254,7 +254,7 @@ class App extends Component {
     return (
       <div className="App">
         {user ? <MyNav onLogout={this.handleLogout} user={user}/> : <MyGuestNav />}
-        {user ? (<p>user: {user.username}</p>) : null}
+        <div className="mainBox">
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route path="/signup" render={(routeProps) => {
@@ -297,6 +297,7 @@ class App extends Component {
             return <ChatLog user={user} {...routeProps} />
           }}/>
         </Switch>
+        </div>
       </div>
     )
   }

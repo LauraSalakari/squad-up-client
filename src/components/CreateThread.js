@@ -22,15 +22,16 @@ export default function CreateThread(props) {
     }
 
     return (
-        <div>
+        <div style={{textAlign: "center"}}>
+        <h2 style={{marginBottom: 20, color: "#84d812"}}>Create a post</h2>
             <Form onSubmit={handlePostCreate}>
                 <Form.Group>
                     <Form.Control size="lg" type="text" placeholder="Post title" name="title" />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Control as="textarea" rows={8} name="content" />
+                    <Form.Control as="textarea" rows={8} name="content" placeholder="Post content"/>
                 </Form.Group>
-                <Button type="submit">Post</Button>
+                <Button type="submit" style={{backgroundColor: "#84d812", border:"1px solid #84d812", marginTop: 15}}>Post</Button>
             </Form>
         </div>
     )

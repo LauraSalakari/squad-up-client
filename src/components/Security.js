@@ -3,7 +3,7 @@ import {Form, Button} from "react-bootstrap"
 
 export default function Security(props) {
     return (
-        <div>
+        <div style={{textAlign: "center"}}>
         <h3>Security settings</h3>
         <h5>Account details:</h5>
         <p>
@@ -26,7 +26,7 @@ export default function Security(props) {
                 <Form.Label>Confirm new password</Form.Label>
                 <Form.Control type="password" placeholder="Confirm new password" name="confirmPassword" />
             </Form.Group>
-            <Button type="submit">Edit</Button>
+            <Button type="submit" style={{backgroundColor: "#9800FF", border:"1px solid #9800FF", marginTop: 15}}>Edit</Button>
         </Form>
         </div>
     )

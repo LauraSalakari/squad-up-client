@@ -42,8 +42,8 @@ export default function CreateSquad(props) {
     const delayedGameSearch = _.debounce(handleGameSearch, 500, { leading: true });
 
     return (
-        <div>
-            <h3>Create a new squad</h3>
+        <div style={{textAlign: "center"}}>
+            <h2 style={{color:"#d81284"}}>Create a new squad</h2>
             <Form onSubmit={props.onCreateSquad}>
                 <Form.Group >
                     <Form.Label>Title</Form.Label>
@@ -67,18 +67,10 @@ export default function CreateSquad(props) {
                         name="game"
                     />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button type="submit" style={{backgroundColor: "#d81284", border:"1px solid #d81284", marginTop: 15}}>
                     Create!
                 </Button>
             </Form>
         </div>
     )
 }
-
-/*
-form needs:
-    game - borrow code from edit profile
-    title
-    description
-    maxSize
-*/
