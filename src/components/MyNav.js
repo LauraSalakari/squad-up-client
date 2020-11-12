@@ -17,7 +17,7 @@ export default function MyGuestNav(props) {
                     <Nav>
                         <NavDropdown title="Profile" id="collasible-nav-dropdown dropdown-button-drop-left" as={ButtonGroup} drop="left">
                             <NavDropdown.Item><Link to={`/profile/${props.user._id}`}> My Profile</Link> </NavDropdown.Item>
-                            <NavDropdown.Item>Messages</NavDropdown.Item>
+                            <NavDropdown.Item><Link to={"/chat"}> Messages</Link></NavDropdown.Item>
                             <NavDropdown.Item><Link to="/settings">Settings</Link></NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={props.onLogout}>Log Out</NavDropdown.Item>

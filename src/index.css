@@ -8,6 +8,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #283239;
   color: #e7e0ec;
+  background-image: url("https://res.cloudinary.com/meetpup/image/upload/v1605196291/squad-up-bg_mezju8.png");
+  background-size: cover;
+  background-repeat: repeat;
 }
 
 code {

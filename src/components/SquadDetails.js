@@ -25,7 +25,9 @@ export default function SquadDetails(props) {
         console.log("clicked", props.user.username)
         Axios.patch(`${API_URL}/squads/${props.match.params.id}/join`, { userId: props.user._id }, { withCredentials: true })
             .then((response) => {
-                setSquad(response.data);
+                let memberIds = response.data.members.map(e => e._id);
+                setMembers(memberIds);
+                setSquad(response.data)
             })
             .catch((err) => {
                 console.log(err)
@@ -86,7 +88,7 @@ export default function SquadDetails(props) {
                                     <Link to={`/chat/${squad._id}`}><Button>Go to chat</Button></Link>
                                     <Button variant="danger" onClick={handleLeaveSquad}>Leave Squad</Button>
                                 </>
-                            ) : (<Button variant="primary" onClick={handleJoinSquad}>Join Squad</Button>)
+                            ) : ((members.length < squad.maxSize) ? (<Button variant="primary" onClick={handleJoinSquad}>Join Squad</Button>) : (null))
                         )
                 }
 

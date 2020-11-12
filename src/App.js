@@ -21,6 +21,7 @@ import CreateThread from './components/CreateThread';
 import PostDetails from "./components/PostDetails"
 import EditPost from './components/EditPost';
 import Chat from './components/Chat';
+import ChatLog from './components/ChatLog';
 
 class App extends Component {
 
@@ -292,6 +293,9 @@ class App extends Component {
           <Route path="/chat/:id" render={(routeProps) => {
             return <Chat user={user} {...routeProps} />
           }} />
+          <Route exact path="/chat" render={(routeProps) => {
+            return <ChatLog user={user} {...routeProps} />
+          }}/>
         </Switch>
       </div>
     )

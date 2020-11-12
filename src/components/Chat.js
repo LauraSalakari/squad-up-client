@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import { SOCKET_URL } from "../config";
-import { v4 as uuidv4 } from 'uuid';
 import { API_URL } from "../config";
 import Axios from 'axios';
 import {Form} from "react-bootstrap"
@@ -17,7 +16,6 @@ export default function Chat(props) {
     const [connected, setConnected] = useState(false)
 
     useEffect(() => {
-        // setRoom(props.match.params.id);
         setUser(props.user);
         if (!user) {
             Axios.get(`${API_URL}/user`, { withCredentials: true })
@@ -26,7 +24,12 @@ export default function Chat(props) {
                 })
         }
         console.log(props.user)
-        // axios request to get the earlier messages
+        
+        Axios.get(`${API_URL}/chat/${props.match.params.id}`, {withCredentials: true})
+        .then((response) => {
+            if(response.data) setMessageList(response.data);
+        })
+
         socket = io(CONNECTION_PORT);
         connectToRoom();
     }, [CONNECTION_PORT]);

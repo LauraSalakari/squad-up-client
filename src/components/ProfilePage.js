@@ -75,13 +75,13 @@ export default function ProfilePage(props) {
                                 if (elem.creator._id === user._id) {
                                     return <div key={elem._id}>
                                         <h6>{elem.title}</h6>
-                                        <p>Creator: <b><Link to={elem.creator._id}>{elem.creator.username}</Link></b> <GiShuriken style={{color: "9800ff"}}/> </p>
+                                        <p>Creator: <b><Link to={`profile/${elem.creator._id}`}>{elem.creator.username}</Link></b> <GiShuriken style={{color: "9800ff"}}/> </p>
                                     </div>
                                 }
                                 else {
                                     return <div key={elem._id}>
                                         <h6>{elem.title}</h6>
-                                        <p>Creator: <b><Link to={elem.creator._id}>{elem.creator.username}</Link> </b></p>
+                                        <p>Creator: <b><Link to={`profile/${elem.creator._id}`}>{elem.creator.username}</Link> </b></p>
                                     </div>
                                 }
                             })
