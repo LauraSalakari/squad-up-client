@@ -4,7 +4,6 @@ import { API_URL } from "../config";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import moment from 'moment';
-import { render } from '@testing-library/react';
 
 export default function SquadDetails(props) {
     const [squad, setSquad] = useState(null)
@@ -77,12 +76,16 @@ export default function SquadDetails(props) {
                 {
                     (props.user._id == squad.creator._id) ? (
                         <div>
+                            <Link to={`/chat/${squad._id}`}><Button>Go to chat</Button></Link>
                             <Button variant="danger" onClick={handleDeleteSquad}>Delete Squad</Button>
                             <Link to={`/squads/${squad._id}/edit`}><Button variant="secondary">Edit Squad</Button></Link>
                         </div>
                     ) : (
                             (members.includes(props.user._id)) ? (
-                                <Button variant="danger" onClick={handleLeaveSquad}>Leave Squad</Button>
+                                <>
+                                    <Link to={`/chat/${squad._id}`}><Button>Go to chat</Button></Link>
+                                    <Button variant="danger" onClick={handleLeaveSquad}>Leave Squad</Button>
+                                </>
                             ) : (<Button variant="primary" onClick={handleJoinSquad}>Join Squad</Button>)
                         )
                 }

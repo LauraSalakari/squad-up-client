@@ -20,6 +20,7 @@ import Forums from './components/Forums';
 import CreateThread from './components/CreateThread';
 import PostDetails from "./components/PostDetails"
 import EditPost from './components/EditPost';
+import Chat from './components/Chat';
 
 class App extends Component {
 
@@ -288,6 +289,9 @@ class App extends Component {
             return <PostDetails user={user} {...routeProps}/>
           }} />
           <Route path="/forums/:id/edit" component={EditPost} />
+          <Route path="/chat/:id" render={(routeProps) => {
+            return <Chat user={user} {...routeProps} />
+          }} />
         </Switch>
       </div>
     )
