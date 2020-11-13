@@ -123,7 +123,7 @@ export default function EditProfile(props) {
                                     styles={customStyles}
                                     name="platforms"
                                     defaultValue={
-                                        (props.user.platforms.length) ? (
+                                        (props.user.platforms && props.user.games[0] != "") ? (
                                             props.user.platforms.map((elem) => {
                                                 return { label: JSON.parse(elem).name, value: elem }
                                             })
@@ -142,7 +142,7 @@ export default function EditProfile(props) {
                                     styles={customStyles}
                                     name="games"
                                     defaultValue={
-                                        (props.user.games) ? (
+                                        (props.user.games && props.user.games[0] != "") ? (
                                             props.user.games.map((elem) => {
                                                 return { label: JSON.parse(elem).name, value: elem }
                                             })
