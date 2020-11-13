@@ -29,13 +29,13 @@ export default function ProfilePage(props) {
     }, [])
 
     useEffect(() => {
-        if (userId != props.match.params.id) {
+        if (userId != props.match.params.id || !user) {
             fetchUser();
             setUserId(props.match.params.id);
         }
     })
 
-    if (!user) {
+    if (!user || !squads) {
         return null
     }
     else {
@@ -43,7 +43,7 @@ export default function ProfilePage(props) {
             <div className="prof-div">
 
                 {
-                    (user.image) ? (<img src={user.image} style={{ width: 200, borderRadius: "50%" }} alt="Profile" />)
+                    (user.image) ? (<img src={user.image} style={{ width: 200, height: 200, borderRadius: "50%" }} alt="Profile" />)
                         :
                         (<img src="https://res.cloudinary.com/meetpup/image/upload/v1604869142/prof-default-icon_ody7zu.png" style={{ width: 200, borderRadius: "50%" }} alt="Default profile" />)
                 }
@@ -57,13 +57,17 @@ export default function ProfilePage(props) {
                         <h4>Platforms:</h4>
                         {
                             (user.platforms) ? (
-                                user.platforms.map((elem) => {
+                                (user.platforms.length == 0 || user.platforms == null) ? (<p><GiTumbleweed /> <br /> No platforms specified</p>) : (user.platforms.map((elem) => {
+                                    if(elem == "") {
+                                        return <p><GiTumbleweed /> <br />No platforms specified</p>
+                                    }
                                     let parsed = JSON.parse(elem);
                                     return <div key={parsed.id}>
                                         {parsed.name}
                                     </div>
-                                })
-                            ) : (<p><GiTumbleweed/> <br/> No platforms specified</p>)
+                                }))
+
+                            ) : (<p><GiTumbleweed /> <br /> No platforms specified</p>)
 
                         }
 
@@ -72,21 +76,24 @@ export default function ProfilePage(props) {
                         <h4>Favourite Games:</h4>
                         {
                             (user.games) ? (
-                                user.games.map((elem) => {
+                                (user.games.length == 0  || user.games == null) ? (<p><GiTumbleweed /> <br />No games specified</p>) : (user.games.map((elem) => {
+                                    if(elem == "") {
+                                        return <p><GiTumbleweed /> <br />No games specified</p>
+                                    }
                                     let parsed = JSON.parse(elem);
                                     return <div key={parsed.id} className="indiv-game-div">
                                         <img src={parsed.background_image} alt="Game" className="prof-game-img" />
                                         {parsed.name}
                                     </div>
-                                })
-                            ) : <p>No games specified</p>
+                                }))
+                            ) : (<p><GiTumbleweed /> <br />No games specified</p>)
                         }
                     </div>
                     <div className="prof-feature-div prof-squad-container">
                         <h4>{user.username}'s Squads</h4>
                         {
                             (squads) ? (
-                                squads.map((elem) => {
+                                (squads.length == 0 || squads == null) ? (<p><GiTumbleweed /> <br />No squads yet</p>) : (squads.map((elem) => {
                                     if (elem.creator._id === user._id) {
                                         return <div key={elem._id} className="prof-squad-div">
                                             <h6>{elem.title}</h6>
@@ -99,8 +106,9 @@ export default function ProfilePage(props) {
                                             <p>Creator: <b><Link to={`/profile/${elem.creator._id}`}>{elem.creator.username}</Link> </b></p>
                                         </div>
                                     }
-                                })
-                            ) : (null)
+                                }))
+
+                            ) : (<p><GiTumbleweed /> <br />No squads yet</p>)
                         }
                     </div>
                 </div>

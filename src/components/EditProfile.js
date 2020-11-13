@@ -123,7 +123,7 @@ export default function EditProfile(props) {
                                     styles={customStyles}
                                     name="platforms"
                                     defaultValue={
-                                        (props.user.platforms) ? (
+                                        (props.user.platforms.length) ? (
                                             props.user.platforms.map((elem) => {
                                                 return { label: JSON.parse(elem).name, value: elem }
                                             })

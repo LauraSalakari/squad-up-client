@@ -2,7 +2,7 @@ import React from 'react'
 import { Navbar, Nav, NavDropdown, ButtonGroup, Button } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
-export default function MyGuestNav(props) {
+export default function MyNav(props) {
 
     let logoStyle = {
         height: 40,
@@ -12,6 +12,7 @@ export default function MyGuestNav(props) {
 
     let profIcon = {
         height: 40,
+        width: 40,
         borderRadius: "50%"
     }
 
@@ -33,6 +34,7 @@ export default function MyGuestNav(props) {
 
                     </Nav>
                     <Nav>
+                        {/* <NavDropdown title={<img src={props.user.image || "https://res.cloudinary.com/meetpup/image/upload/v1604869142/prof-default-icon_ody7zu.png"} style={profIcon}/>}id="collasible-nav-dropdown dropdown-button-drop-left" as={ButtonGroup} drop="left"> */}
                         <NavDropdown title={<img src={props.user.image || "https://res.cloudinary.com/meetpup/image/upload/v1604869142/prof-default-icon_ody7zu.png"} style={profIcon}/>}id="collasible-nav-dropdown dropdown-button-drop-left" as={ButtonGroup} drop="left">
                             <NavDropdown.Item><Link to={`/profile/${props.user._id}`} style={{textDecoration:"none", color:"#9800FF"}}>My Profile</Link> </NavDropdown.Item>
                             <NavDropdown.Item><Link to={"/chat"} style={{textDecoration:"none", color:"#9800FF"}}> Messages</Link></NavDropdown.Item>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
-export default function MyNav() {
+export default function MyGuestNav() {
 
     let logoStyle = {
         height: 40,

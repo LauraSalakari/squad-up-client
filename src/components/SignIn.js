@@ -20,7 +20,7 @@ export default function SignIn(props) {
                     <Form.Control type="password" placeholder="Password" name="password" />
                 </Form.Group>
                 <Button type="submit" style={{backgroundColor: "#9800FF", border:"1px solid #9800FF", marginTop: 15}}>
-                    Signup
+                    Sign In
                 </Button>
                 {
                 props.errorMessage ? (
